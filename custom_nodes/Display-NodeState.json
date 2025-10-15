@@ -1,0 +1,47 @@
+{
+  "meta": {
+    "amVersion": "ForgeRock Access Management 8.1.0-SNAPSHOT Build 3fcd04b8178750a006a4b1b1719345d0cba3e68f (2025-October-02 15:38)",
+    "exportDate": "2025-10-14T18:44:24.102Z",
+    "origin": "https://openam-<tenant>/am/json/node-designer/node-type/",
+    "exportedBy": "PS@pingidentity.com",
+    "resourceVersion": "1.0"
+  },
+  "nodeTypes": {
+    "1b565dccf3454f4b90c65516f90b6f63-1": {
+      "serviceName": "1b565dccf3454f4b90c65516f90b6f63",
+      "displayName": "Output Variable from NodeState",
+      "description": "Output the contents of a specific variable from nodeState onscreen to aid troubleshooting.",
+      "outcomes": [
+        "Next"
+      ],
+      "outputs": [],
+      "inputs": [],
+      "script": "/**\n * If selected displays contents of objectAttributes across shared and transientState\n * Handles the scenario where objectAttributes is not present in nodeState\n * Displays multiple nodeState variables specified in the node property array 'nodeStateVariable'\n * Handles case where key is not present in nodeState\n * v1_0\n */\n\nvar nodeOutcomes = { \n    NEXT: \"Next\" \n};\n\n(function () {\n    logger.error(scriptName + \": Node execution started\");\n\n    if (callbacks.isEmpty()) {\n        const objectAttributes = properties.objectAttributes;      \n        const stateVariables   = properties.nodeStateVariable || [];\n\n        //Handle objectAttributes from both shared and transient state\n        if (objectAttributes) {\n            const oa = nodeState.getObject(\"objectAttributes\");\n            if (oa) {\n                const keys = (typeof oa.keySet === \"function\") ? oa.keySet().toArray() : Object.keys(oa);\n                keys.forEach(function (key) {\n                    //Guards against TypeErrors\n                    const val = (typeof oa.get === \"function\") ? oa.get(key) : oa[key];\n                    callbacksBuilder.stringAttributeInputCallback(String(key), \"objectAttributes.\" + String(key), String(val), false);\n\n                });\n                logger.debug(scriptName + \": objectAttributes processed (\" + keys.length + \" keys).\");\n            } else {\n                logger.error(scriptName + \": objectAttributes not present in nodeState.\");\n                callbacksBuilder.textOutputCallback(0, \"Variable objectAttributes not found in nodeState.\");\n            }\n        }\n\n        //Handle getting config defined variables from NodeState, with error handling if the variable is not present in state\n        if (stateVariables.length > 0) {\n            stateVariables.forEach(function (key) {\n                var value = nodeState.get(key);\n\n                if (value === null || value === undefined) {\n                    var msg = \"Variable \" + key + \" not found in nodeState.\";\n                    logger.error(scriptName + \": \" + msg);\n                    callbacksBuilder.textOutputCallback(0, msg);\n                    return;\n                }\n\n                callbacksBuilder.stringAttributeInputCallback(String(key), \"nodeState.\" + String(key), String(value), false);\n                logger.debug(scriptName + \": nodeState variable '\" + key + \"' = \" + value);\n            });\n        } else {\n            logger.error(scriptName + \": No nodeStateVariable array defined or it's empty in node properties.\");\n            callbacksBuilder.stringAttributeInputCallback(\"Error\", \"nodeStateVariable\", \"No variables defined in node configuration\", false);\n        }\n    } else {\n        logger.error(scriptName + \": Node execution completed\");\n        action.goTo(nodeOutcomes.NEXT);\n    }\n})();",
+      "errorOutcome": false,
+      "tags": [
+        "debug",
+        "nodeState",
+        "customNode",
+        "v1_0",
+        "utilities"
+      ],
+      "properties": {
+        "nodeStateVariable": {
+          "title": "NodeState Variable Name",
+          "description": "Enter the variable to retrieve and display from nodeState.",
+          "type": "STRING",
+          "required": true,
+          "multivalued": true
+        },
+        "objectAttributes": {
+          "title": "Get ObjectAttributes?",
+          "description": "When this option is selected objectAttributes will be retrieved from both shared and transient state.",
+          "type": "BOOLEAN",
+          "required": false,
+          "defaultValue": false,
+          "multivalued": false
+        }
+      }
+    }
+  }
+}

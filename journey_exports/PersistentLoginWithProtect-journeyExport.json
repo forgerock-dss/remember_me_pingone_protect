@@ -1,0 +1,602 @@
+{
+  "meta": {
+    "origin": "https://openam-<tenant>/platform/?realm=alpha#/journeys/PersistentLoginWithProtect",
+    "exportedBy": "PS@pingidentity.com",
+    "exportDate": "2025-10-15T14:03:26.123Z",
+    "exportTool": "platform-admin ui tree export",
+    "exportToolVersion": "1.0",
+    "treesSelectedForExport": [
+      "PersistentLoginWithProtect"
+    ],
+    "innerTreesIncluded": []
+  },
+  "trees": {
+    "PersistentLoginWithProtect": {
+      "tree": {
+        "_id": "PersistentLoginWithProtect",
+        "_rev": "459670335",
+        "identityResource": "managed/alpha_user",
+        "entryNodeId": "717fff09-b94f-4907-ac54-ad9571ec1116",
+        "innerTreeOnly": false,
+        "description": "Login journey to showcase \"Remember Be\" Persistent Login enhanced with PingOne Protect",
+        "noSession": false,
+        "mustRun": false,
+        "enabled": true,
+        "transactionalOnly": false,
+        "uiConfig": {
+          "categories": "[\"Authentication\",\"PingOne Protect\"]",
+          "annotations": "{\"forNodes\":{},\"structural\":[{\"id\":\"f45f2514-0beb-4f96-a299-09d33a69adc4\",\"text\":\"Always initialize Protect at the start of a journey\",\"color\":\"yellow\",\"createdBy\":\"Darinder Shokar\",\"x\":34,\"y\":160.76666259765625,\"w\":134,\"h\":100},{\"id\":\"4171d101-83e2-452c-b974-45ade5875716\",\"text\":\"Check if a persistent cookie is set and branch based on the result\",\"color\":\"yellow\",\"createdBy\":\"Darinder Shokar\",\"x\":27,\"y\":378.76666259765625,\"w\":161,\"h\":100},{\"id\":\"016276e1-62d9-4dcb-8545-8fe873e8eb1a\",\"text\":\"Only set a persistent cookie if Protect returns a Low evaluation\",\"color\":\"yellow\",\"createdBy\":\"Darinder Shokar\",\"x\":977,\"y\":322.76666259765625,\"w\":166,\"h\":100},{\"id\":\"b66701f5-20f9-4bba-adcd-2a0ef67dd376\",\"text\":\"For the Low evaluation result keep the persistent cookie and allow seamless login. For all other outcomes silently remove the cookie, display nodeState and re-direct to login\",\"color\":\"yellow\",\"createdBy\":\"Darinder Shokar\",\"x\":1332,\"y\":77.76666259765625,\"w\":206,\"h\":172},{\"id\":\"1a435ee8-6956-489f-a01a-d4d2196a0611\",\"text\":\"For illustration purposes all outcomes except Low, Failure  and ClientError result in a output screen to view the Protect result\",\"color\":\"yellow\",\"createdBy\":\"Darinder Shokar\",\"x\":1329,\"y\":532.7666625976562,\"w\":208,\"h\":110}]}"
+        },
+        "nodes": {
+          "b15f7679-c3f2-4055-ac3a-1034e8135abc": {
+            "x": 1060.2833251953125,
+            "y": 39,
+            "connections": {
+              "outcome": "380f7b9c-a2ba-460e-b229-3adc845157d4"
+            },
+            "nodeType": "product-PingOneProtectResultNode",
+            "displayName": "PingOne Protect Result"
+          },
+          "1c4b93af-0203-4caa-824b-3e293ea46c89": {
+            "x": 605.2833251953125,
+            "y": 441,
+            "connections": {
+              "clientError": "e301438c-0bd0-429c-ab0c-66126501069a",
+              "failure": "c2c1c14a-603d-4e93-b592-9990dcbf5abd",
+              "low": "5894c861-4ef7-4d58-bde9-897bb63fd2b1",
+              "high": "c490c49e-0bda-4980-ba45-b13eda63fdc9",
+              "medium": "c490c49e-0bda-4980-ba45-b13eda63fdc9",
+              "exceed": "c490c49e-0bda-4980-ba45-b13eda63fdc9",
+              "BOT_MITIGATION": "c490c49e-0bda-4980-ba45-b13eda63fdc9",
+              "AITM_MITIGATION": "c490c49e-0bda-4980-ba45-b13eda63fdc9"
+            },
+            "nodeType": "product-PingOneProtectEvaluationNode",
+            "displayName": "PingOne Protect Evaluation"
+          },
+          "5894c861-4ef7-4d58-bde9-897bb63fd2b1": {
+            "x": 1054,
+            "y": 431,
+            "connections": {
+              "outcome": "c9436fc4-71b9-48b5-8266-4aaa2047c111"
+            },
+            "nodeType": "SetPersistentCookieNode",
+            "displayName": "Set Persistent Cookie"
+          },
+          "380f7b9c-a2ba-460e-b229-3adc845157d4": {
+            "x": 1059,
+            "y": 130,
+            "connections": {
+              "outcome": "172ade81-e748-4212-b857-f39eef0a1475"
+            },
+            "nodeType": "SetCustomCookieNode",
+            "displayName": "Remove Persistent Cookie"
+          },
+          "804e3842-2fb0-4faf-8a7d-a94551a70fea": {
+            "x": 213,
+            "y": 754,
+            "connections": {
+              "false": "e301438c-0bd0-429c-ab0c-66126501069a",
+              "true": "1c4b93af-0203-4caa-824b-3e293ea46c89"
+            },
+            "nodeType": "DataStoreDecisionNode",
+            "displayName": "Data Store Decision"
+          },
+          "c2c1c14a-603d-4e93-b592-9990dcbf5abd": {
+            "x": 1055,
+            "y": 661,
+            "connections": {
+              "false": "c9436fc4-71b9-48b5-8266-4aaa2047c111",
+              "true": "c9436fc4-71b9-48b5-8266-4aaa2047c111"
+            },
+            "nodeType": "MessageNode",
+            "displayName": "Failure Message Node"
+          },
+          "c9436fc4-71b9-48b5-8266-4aaa2047c111": {
+            "x": 1491.2833251953125,
+            "y": 420,
+            "connections": {
+              "outcome": "70e691a5-1e33-4ac3-a356-e7b6d60d92e0"
+            },
+            "nodeType": "product-PingOneProtectResultNode",
+            "displayName": "PingOne Protect Result"
+          },
+          "88c3a85e-2988-4d57-bd0c-73c56a573256": {
+            "x": 214,
+            "y": 513,
+            "connections": {
+              "outcome": "804e3842-2fb0-4faf-8a7d-a94551a70fea"
+            },
+            "nodeType": "PageNode",
+            "displayName": "Page Node"
+          },
+          "5584a4b7-50d1-4310-87c1-28f78a7c6643": {
+            "x": 601.2833251953125,
+            "y": 53,
+            "connections": {
+              "AITM_MITIGATION": "b15f7679-c3f2-4055-ac3a-1034e8135abc",
+              "BOT_MITIGATION": "b15f7679-c3f2-4055-ac3a-1034e8135abc",
+              "clientError": "e301438c-0bd0-429c-ab0c-66126501069a",
+              "exceed": "b15f7679-c3f2-4055-ac3a-1034e8135abc",
+              "failure": "b15f7679-c3f2-4055-ac3a-1034e8135abc",
+              "high": "b15f7679-c3f2-4055-ac3a-1034e8135abc",
+              "low": "c9436fc4-71b9-48b5-8266-4aaa2047c111",
+              "medium": "b15f7679-c3f2-4055-ac3a-1034e8135abc"
+            },
+            "nodeType": "product-PingOneProtectEvaluationNode",
+            "displayName": "PingOne Protect Evaluation"
+          },
+          "717fff09-b94f-4907-ac54-ad9571ec1116": {
+            "x": 207.2833251953125,
+            "y": 151,
+            "connections": {
+              "false": "e301438c-0bd0-429c-ab0c-66126501069a",
+              "true": "93c62d01-320c-4ed2-94fc-23630a1c6bab"
+            },
+            "nodeType": "product-PingOneProtectInitializeNode",
+            "displayName": "PingOne Protect Initialize"
+          },
+          "93c62d01-320c-4ed2-94fc-23630a1c6bab": {
+            "x": 214,
+            "y": 368,
+            "connections": {
+              "false": "88c3a85e-2988-4d57-bd0c-73c56a573256",
+              "true": "5584a4b7-50d1-4310-87c1-28f78a7c6643"
+            },
+            "nodeType": "PersistentCookieDecisionNode",
+            "displayName": "Persistent Cookie Decision"
+          },
+          "172ade81-e748-4212-b857-f39eef0a1475": {
+            "x": 1056,
+            "y": 226.76666259765625,
+            "connections": {
+              "Next": "88c3a85e-2988-4d57-bd0c-73c56a573256"
+            },
+            "nodeType": "designer-1b565dccf3454f4b90c65516f90b6f63",
+            "displayName": "Output Variable from NodeState"
+          },
+          "c490c49e-0bda-4980-ba45-b13eda63fdc9": {
+            "x": 1057,
+            "y": 546.7666625976562,
+            "connections": {
+              "Next": "c9436fc4-71b9-48b5-8266-4aaa2047c111"
+            },
+            "nodeType": "designer-1b565dccf3454f4b90c65516f90b6f63",
+            "displayName": "Output Variable from NodeState"
+          }
+        },
+        "staticNodes": {
+          "startNode": {
+            "x": 50,
+            "y": 25
+          },
+          "70e691a5-1e33-4ac3-a356-e7b6d60d92e0": {
+            "x": 1890,
+            "y": 430
+          },
+          "e301438c-0bd0-429c-ab0c-66126501069a": {
+            "x": 1893,
+            "y": 800
+          }
+        }
+      },
+      "nodes": {
+        "b15f7679-c3f2-4055-ac3a-1034e8135abc": {
+          "_id": "b15f7679-c3f2-4055-ac3a-1034e8135abc",
+          "_rev": "-138952038",
+          "status": "SUCCESS",
+          "_type": {
+            "_id": "product-PingOneProtectResultNode",
+            "name": "PingOne Protect Result",
+            "collection": true,
+            "version": "1.0"
+          },
+          "_outcomes": [
+            {
+              "id": "outcome",
+              "displayName": "Outcome"
+            }
+          ]
+        },
+        "1c4b93af-0203-4caa-824b-3e293ea46c89": {
+          "_id": "1c4b93af-0203-4caa-824b-3e293ea46c89",
+          "_rev": "-598784458",
+          "flowType": "AUTHENTICATION",
+          "dynamicRiskPolicySetID": false,
+          "pauseBehavioralData": true,
+          "storeEvaluateResult": true,
+          "pingOneWorker": "PingOne Worker AIC",
+          "deviceSharingType": "SHARED",
+          "scoreThreshold": "300",
+          "dynamicTargetResourceID": false,
+          "userType": "EXTERNAL",
+          "recommendedActions": [
+            "BOT_MITIGATION",
+            "AITM_MITIGATION"
+          ],
+          "_type": {
+            "_id": "product-PingOneProtectEvaluationNode",
+            "name": "PingOne Protect Evaluation",
+            "collection": true,
+            "version": "1.0"
+          },
+          "_outcomes": [
+            {
+              "id": "high",
+              "displayName": "High"
+            },
+            {
+              "id": "medium",
+              "displayName": "Medium"
+            },
+            {
+              "id": "low",
+              "displayName": "Low"
+            },
+            {
+              "id": "exceed",
+              "displayName": "Exceeds Score Threshold"
+            },
+            {
+              "id": "failure",
+              "displayName": "Failure"
+            },
+            {
+              "id": "BOT_MITIGATION",
+              "displayName": "BOT_MITIGATION"
+            },
+            {
+              "id": "AITM_MITIGATION",
+              "displayName": "AITM_MITIGATION"
+            },
+            {
+              "id": "clientError",
+              "displayName": "ClientError"
+            }
+          ]
+        },
+        "5894c861-4ef7-4d58-bde9-897bb63fd2b1": {
+          "_id": "5894c861-4ef7-4d58-bde9-897bb63fd2b1",
+          "_rev": "1593147857",
+          "persistentCookieName": "persist-session",
+          "useHttpOnlyCookie": true,
+          "useSecureCookie": true,
+          "idleTimeout": 5,
+          "hmacSigningKey": {
+            "$string": "&{esv.hmac.signing.key}"
+          },
+          "maxLife": 5,
+          "_type": {
+            "_id": "SetPersistentCookieNode",
+            "name": "Set Persistent Cookie",
+            "collection": true,
+            "version": "1.0"
+          },
+          "_outcomes": [
+            {
+              "id": "outcome",
+              "displayName": "Outcome"
+            }
+          ]
+        },
+        "380f7b9c-a2ba-460e-b229-3adc845157d4": {
+          "_id": "380f7b9c-a2ba-460e-b229-3adc845157d4",
+          "_rev": "113305859",
+          "maxAge": -1,
+          "path": "/",
+          "useHttpOnlyCookie": true,
+          "domain": "&{esv.persist.cookie.domain}",
+          "sameSite": "NONE",
+          "useSecureCookie": true,
+          "value": "null",
+          "name": "persist-session",
+          "_type": {
+            "_id": "SetCustomCookieNode",
+            "name": "Set Custom Cookie",
+            "collection": true,
+            "version": "1.0"
+          },
+          "_outcomes": [
+            {
+              "id": "outcome",
+              "displayName": "Outcome"
+            }
+          ]
+        },
+        "804e3842-2fb0-4faf-8a7d-a94551a70fea": {
+          "_id": "804e3842-2fb0-4faf-8a7d-a94551a70fea",
+          "_rev": "247616596",
+          "_type": {
+            "_id": "DataStoreDecisionNode",
+            "name": "Data Store Decision",
+            "collection": true,
+            "version": "1.0"
+          },
+          "_outcomes": [
+            {
+              "id": "true",
+              "displayName": "True"
+            },
+            {
+              "id": "false",
+              "displayName": "False"
+            }
+          ]
+        },
+        "c2c1c14a-603d-4e93-b592-9990dcbf5abd": {
+          "_id": "c2c1c14a-603d-4e93-b592-9990dcbf5abd",
+          "_rev": "-2042560940",
+          "messageYes": {},
+          "message": {
+            "en": "Failed to call the PingOne Protect tenant. Check Config"
+          },
+          "messageNo": {},
+          "_type": {
+            "_id": "MessageNode",
+            "name": "Message Node",
+            "collection": true,
+            "version": "1.0"
+          },
+          "_outcomes": [
+            {
+              "id": "true",
+              "displayName": "True"
+            },
+            {
+              "id": "false",
+              "displayName": "False"
+            }
+          ]
+        },
+        "c9436fc4-71b9-48b5-8266-4aaa2047c111": {
+          "_id": "c9436fc4-71b9-48b5-8266-4aaa2047c111",
+          "_rev": "1438270293",
+          "status": "SUCCESS",
+          "_type": {
+            "_id": "product-PingOneProtectResultNode",
+            "name": "PingOne Protect Result",
+            "collection": true,
+            "version": "1.0"
+          },
+          "_outcomes": [
+            {
+              "id": "outcome",
+              "displayName": "Outcome"
+            }
+          ]
+        },
+        "88c3a85e-2988-4d57-bd0c-73c56a573256": {
+          "_id": "88c3a85e-2988-4d57-bd0c-73c56a573256",
+          "_rev": "-1679928667",
+          "nodes": [
+            {
+              "_id": "b9669e60-c7f2-4f16-b122-c36c90da9533",
+              "nodeType": "ValidatedUsernameNode",
+              "displayName": "Platform Username"
+            },
+            {
+              "_id": "f4150042-fb51-4fbb-8984-a34fd0264670",
+              "nodeType": "ValidatedPasswordNode",
+              "displayName": "Platform Password"
+            }
+          ],
+          "pageDescription": {
+            "en": "New here? <a href=\"#/service/Registration\">Create an account</a><br><a href=\"#/service/ForgottenUsername\">Forgot username?</a><a href=\"#/service/ResetPassword\"> Forgot password?</a>"
+          },
+          "pageHeader": {
+            "en": "Sign In"
+          },
+          "_type": {
+            "_id": "PageNode",
+            "name": "Page Node",
+            "collection": true,
+            "version": "1.0"
+          },
+          "_outcomes": [
+            {
+              "id": "outcome",
+              "displayName": "Outcome"
+            }
+          ]
+        },
+        "5584a4b7-50d1-4310-87c1-28f78a7c6643": {
+          "_id": "5584a4b7-50d1-4310-87c1-28f78a7c6643",
+          "_rev": "41252513",
+          "flowType": "AUTHENTICATION",
+          "dynamicRiskPolicySetID": false,
+          "pauseBehavioralData": true,
+          "storeEvaluateResult": true,
+          "pingOneWorker": "PingOne Worker AIC",
+          "deviceSharingType": "SHARED",
+          "scoreThreshold": "300",
+          "dynamicTargetResourceID": false,
+          "userType": "EXTERNAL",
+          "recommendedActions": [
+            "BOT_MITIGATION",
+            "AITM_MITIGATION"
+          ],
+          "_type": {
+            "_id": "product-PingOneProtectEvaluationNode",
+            "name": "PingOne Protect Evaluation",
+            "collection": true,
+            "version": "1.0"
+          },
+          "_outcomes": [
+            {
+              "id": "high",
+              "displayName": "High"
+            },
+            {
+              "id": "medium",
+              "displayName": "Medium"
+            },
+            {
+              "id": "low",
+              "displayName": "Low"
+            },
+            {
+              "id": "exceed",
+              "displayName": "Exceeds Score Threshold"
+            },
+            {
+              "id": "failure",
+              "displayName": "Failure"
+            },
+            {
+              "id": "BOT_MITIGATION",
+              "displayName": "BOT_MITIGATION"
+            },
+            {
+              "id": "AITM_MITIGATION",
+              "displayName": "AITM_MITIGATION"
+            },
+            {
+              "id": "clientError",
+              "displayName": "ClientError"
+            }
+          ]
+        },
+        "717fff09-b94f-4907-ac54-ad9571ec1116": {
+          "_id": "717fff09-b94f-4907-ac54-ad9571ec1116",
+          "_rev": "220043657",
+          "deviceAttributesToIgnore": [],
+          "enableTrust": false,
+          "disableTags": false,
+          "behavioralDataCollection": true,
+          "pingOneWorker": "PingOne Worker AIC",
+          "consoleLogEnabled": true,
+          "deviceKeyRsyncIntervals": 14,
+          "disableHub": false,
+          "lazyMetadata": false,
+          "_type": {
+            "_id": "product-PingOneProtectInitializeNode",
+            "name": "PingOne Protect Initialize",
+            "collection": true,
+            "version": "1.0"
+          },
+          "_outcomes": [
+            {
+              "id": "true",
+              "displayName": "True"
+            },
+            {
+              "id": "false",
+              "displayName": "False"
+            }
+          ]
+        },
+        "93c62d01-320c-4ed2-94fc-23630a1c6bab": {
+          "_id": "93c62d01-320c-4ed2-94fc-23630a1c6bab",
+          "_rev": "-1406665335",
+          "enforceClientIp": false,
+          "persistentCookieName": "persist-session",
+          "useHttpOnlyCookie": true,
+          "useSecureCookie": true,
+          "idleTimeout": 5,
+          "hmacSigningKey": {
+            "$string": "&{esv.hmac.signing.key}"
+          },
+          "_type": {
+            "_id": "PersistentCookieDecisionNode",
+            "name": "Persistent Cookie Decision",
+            "collection": true,
+            "version": "1.0"
+          },
+          "_outcomes": [
+            {
+              "id": "true",
+              "displayName": "True"
+            },
+            {
+              "id": "false",
+              "displayName": "False"
+            }
+          ]
+        },
+        "172ade81-e748-4212-b857-f39eef0a1475": {
+          "_id": "172ade81-e748-4212-b857-f39eef0a1475",
+          "_rev": "703173085",
+          "nodeStateVariable": [
+            "PingOneProtectEvaluationNode.RISK"
+          ],
+          "objectAttributes": false,
+          "_type": {
+            "_id": "designer-1b565dccf3454f4b90c65516f90b6f63",
+            "name": "Output Variable from NodeState",
+            "collection": true,
+            "version": "1.0"
+          },
+          "_outcomes": [
+            {
+              "id": "Next",
+              "displayName": "Next"
+            }
+          ]
+        },
+        "c490c49e-0bda-4980-ba45-b13eda63fdc9": {
+          "_id": "c490c49e-0bda-4980-ba45-b13eda63fdc9",
+          "_rev": "1554782335",
+          "nodeStateVariable": [
+            "PingOneProtectEvaluationNode.RISK"
+          ],
+          "objectAttributes": false,
+          "_type": {
+            "_id": "designer-1b565dccf3454f4b90c65516f90b6f63",
+            "name": "Output Variable from NodeState",
+            "collection": true,
+            "version": "1.0"
+          },
+          "_outcomes": [
+            {
+              "id": "Next",
+              "displayName": "Next"
+            }
+          ]
+        }
+      },
+      "innerNodes": {
+        "b9669e60-c7f2-4f16-b122-c36c90da9533": {
+          "_id": "b9669e60-c7f2-4f16-b122-c36c90da9533",
+          "_rev": "1178251257",
+          "usernameAttribute": "userName",
+          "validateInput": false,
+          "_type": {
+            "_id": "ValidatedUsernameNode",
+            "name": "Platform Username",
+            "collection": true,
+            "version": "1.0"
+          },
+          "_outcomes": [
+            {
+              "id": "outcome",
+              "displayName": "Outcome"
+            }
+          ]
+        },
+        "f4150042-fb51-4fbb-8984-a34fd0264670": {
+          "_id": "f4150042-fb51-4fbb-8984-a34fd0264670",
+          "_rev": "-1240087613",
+          "passwordAttribute": "password",
+          "validateInput": false,
+          "_type": {
+            "_id": "ValidatedPasswordNode",
+            "name": "Platform Password",
+            "collection": true,
+            "version": "1.0"
+          },
+          "_outcomes": [
+            {
+              "id": "outcome",
+              "displayName": "Outcome"
+            }
+          ]
+        }
+      },
+      "scripts": {},
+      "emailTemplates": {},
+      "socialIdentityProviders": {},
+      "themes": [],
+      "saml2Entities": {},
+      "circlesOfTrust": {}
+    }
+  }
+}
